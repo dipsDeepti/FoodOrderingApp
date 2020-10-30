@@ -10,13 +10,13 @@ spring:
 
   datasource:
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5433/restaurantdb
+    url: jdbc:postgresql://localhost:5432/restaurantdb
     username: postgres
-    password: postgres
+    password: password
 
   jpa:
     properties:
       hibernate:
         temp:
           use_jdbc_metadata_defaults: false
-    database-platform: org.hibernate.dialect.PostgreSQL82Dialect
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
