@@ -187,5 +187,4 @@ public class CustomerController {
 
         return new ResponseEntity<UpdatePasswordResponse>(updatePasswordResponse,HttpStatus.OK);
     }
-
 }
