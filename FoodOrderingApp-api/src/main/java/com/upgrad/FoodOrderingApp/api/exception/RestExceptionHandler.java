@@ -1,4 +1,4 @@
-package com.upgrad.FoodOrderingApp.api.expection;
+package com.upgrad.FoodOrderingApp.api.exception;
 
 
 import com.upgrad.FoodOrderingApp.api.model.ErrorResponse;
@@ -12,6 +12,8 @@ import org.springframework.web.context.request.WebRequest;
 
 @ControllerAdvice
 public class RestExceptionHandler {
+
+
     @ExceptionHandler(SignUpRestrictedException.class)
     public ResponseEntity<ErrorResponse> signUpRestrictedException (SignUpRestrictedException exc, WebRequest request){
         return new ResponseEntity<ErrorResponse>(new ErrorResponse()
@@ -28,21 +30,14 @@ public class RestExceptionHandler {
                 HttpStatus.UNAUTHORIZED);
 
     }
+
+
     @ExceptionHandler(UpdateCustomerException.class)
     public ResponseEntity<ErrorResponse> updateCustomerException (UpdateCustomerException exc,WebRequest request){
         return new ResponseEntity<ErrorResponse>(new ErrorResponse()
                 .code(exc.getCode())
                 .message(exc.getErrorMessage()),
                 HttpStatus.BAD_REQUEST);
-    }
-
-
-    @ExceptionHandler(AuthorizationFailedException.class)
-    public ResponseEntity<ErrorResponse> authorizationFailedException(AuthorizationFailedException exc ,WebRequest request) {
-        return new ResponseEntity<ErrorResponse>(new ErrorResponse()
-                .code(exc.getCode())
-                .message(exc.getErrorMessage()),
-                HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(SaveAddressException.class)
@@ -60,6 +55,15 @@ public class RestExceptionHandler {
                 .message(exc.getErrorMessage()),
                 HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(AuthorizationFailedException.class)
+    public ResponseEntity<ErrorResponse> authorizationFailedException(AuthorizationFailedException exc ,WebRequest request) {
+        return new ResponseEntity<ErrorResponse>(new ErrorResponse()
+                .code(exc.getCode())
+                .message(exc.getErrorMessage()),
+                HttpStatus.FORBIDDEN);
+    }
+
 
 
 }
