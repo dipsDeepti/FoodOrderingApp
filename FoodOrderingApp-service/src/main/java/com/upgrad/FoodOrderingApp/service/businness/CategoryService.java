@@ -48,6 +48,14 @@ public class CategoryService {
                 .collect(Collectors.toList());
     }
 
+    public List<CategoryEntity> getCategoriesByRestaurant(String restaurantUUID) {
+        RestaurantEntity restaurantEntity = restaurantDao.restaurantByUUID(restaurantUUID);
+        return restaurantEntity.getCategoryEntities().stream()
+                .sorted(Comparator.comparing(CategoryEntity::getCategoryName))
+                .collect(Collectors.toList());
+    }
+
+
     public List<CategoryEntity> getAllCategories(){
         return  categoryDao.getAllCategories();
     }

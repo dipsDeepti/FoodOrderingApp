@@ -11,7 +11,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 //This Class represents the Restaurant table in the DB
@@ -78,6 +80,16 @@ public class RestaurantEntity implements Serializable {
             joinColumns = @JoinColumn(name = "restaurant_id", referencedColumnName="id", nullable = false),
             inverseJoinColumns = @JoinColumn(name = "item_id", referencedColumnName="id", nullable = false)
     )
+
+    private List<ItemEntity> items = new ArrayList<>();
+
+    public List<ItemEntity> getItems() {
+        return items;
+    }
+
+    public void setItems(List<ItemEntity> items) {
+        this.items = items;
+    }
 
     public Integer getId() {
         return id;

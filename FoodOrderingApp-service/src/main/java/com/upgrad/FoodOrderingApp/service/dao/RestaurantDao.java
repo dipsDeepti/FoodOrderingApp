@@ -56,4 +56,12 @@ public class RestaurantDao  {
         return restaurantEntity;
     }
 
+    public List<RestaurantEntity> restaurantsByRating() {
+        try {
+            return entityManager.createNamedQuery("restaurantsByRating", RestaurantEntity.class).getResultList();
+        } catch (NoResultException nre) {
+            return null;
+        }
+    }
+
 }

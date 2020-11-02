@@ -1,5 +1,6 @@
 package com.upgrad.FoodOrderingApp.api.controller;
 
+import com.upgrad.FoodOrderingApp.api.model.CategoriesListResponse;
 import com.upgrad.FoodOrderingApp.api.model.CategoryDetailsResponse;
 import com.upgrad.FoodOrderingApp.api.model.CategoryListResponse;
 import com.upgrad.FoodOrderingApp.api.model.ItemList;
@@ -32,18 +33,24 @@ public class CategoryController {
      * return response entity with CategoriesList(details) and Http status
      *
      */
-    @RequestMapping(method = RequestMethod.GET, path = "/category", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity getAllCategories() {
 
-        final List<CategoryEntity> allCategories = categoryBusinessService.getAllCategories();
-        List<CategoryListResponse> categoriesList = new ArrayList<CategoryListResponse>();
-        for (CategoryEntity n: allCategories) {
-            CategoryListResponse categoryDetail = new CategoryListResponse();
-            categoryDetail.setCategoryName(n.getCategoryName());
-            categoryDetail.setId(UUID.fromString(n.getUuid()));
-            categoriesList.add(categoryDetail);
+    @CrossOrigin
+    @RequestMapping(method = RequestMethod.GET, path = "/category", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<CategoriesListResponse> getAllCategories() {
+
+
+        List<CategoryEntity> categoryEntityList = categoryBusinessService.getAllCategoriesOrderedByName();
+
+        CategoriesListResponse categoriesListResponse = new CategoriesListResponse();
+
+        for (CategoryEntity categoryEntity : categoryEntityList) {
+            CategoryListResponse categoryListResponse = new CategoryListResponse()
+                    .id(UUID.fromString(categoryEntity.getUuid()))
+                    .categoryName(categoryEntity.getCategoryName());
+            categoriesListResponse.addCategoriesItem(categoryListResponse);
         }
-        return new ResponseEntity<>(categoriesList, HttpStatus.OK);
+
+        return new ResponseEntity<CategoriesListResponse>(categoriesListResponse, HttpStatus.OK);
     }
 
     /**
@@ -57,7 +64,7 @@ public class CategoryController {
             throws CategoryNotFoundException{
         CategoryEntity categoryEntity = categoryBusinessService.getCategoryById(categoryId.toLowerCase());
         CategoryDetailsResponse categoryDetailsResponse = new CategoryDetailsResponse().id(UUID.fromString(categoryEntity.getUuid())).categoryName(categoryEntity.getCategoryName());
-        for (ItemEntity itemEntity : categoryEntity.getItemEntities()) {
+        for (ItemEntity itemEntity : categoryEntity.getItems()) {
             ItemList itemList = new ItemList()
                     .id(UUID.fromString(itemEntity.getUuid()))
                     .itemName(itemEntity.getItemName())
@@ -67,5 +74,4 @@ public class CategoryController {
         }
         return new ResponseEntity<CategoryDetailsResponse>(categoryDetailsResponse, HttpStatus.OK);
     }
-
 }

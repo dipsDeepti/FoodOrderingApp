@@ -1,4 +1,4 @@
-/*package com.upgrad.FoodOrderingApp.api.controller;
+package com.upgrad.FoodOrderingApp.api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.upgrad.FoodOrderingApp.api.model.RestaurantList;
@@ -7,9 +7,7 @@ import com.upgrad.FoodOrderingApp.service.businness.CategoryService;
 import com.upgrad.FoodOrderingApp.service.businness.CustomerService;
 import com.upgrad.FoodOrderingApp.service.businness.ItemService;
 import com.upgrad.FoodOrderingApp.service.businness.RestaurantService;
-import com.upgrad.FoodOrderingApp.service.entity.CategoryEntity;
-import com.upgrad.FoodOrderingApp.service.entity.ItemEntity;
-import com.upgrad.FoodOrderingApp.service.entity.RestaurantEntity;
+import com.upgrad.FoodOrderingApp.service.entity.*;
 import com.upgrad.FoodOrderingApp.service.exception.AuthorizationFailedException;
 import com.upgrad.FoodOrderingApp.service.exception.CategoryNotFoundException;
 import com.upgrad.FoodOrderingApp.service.exception.InvalidRatingException;
@@ -152,7 +150,7 @@ public class RestaurantControllerTest {
     @Test
     public void shouldNotGetRestaurantByNameIfNameIsEmpty() throws Exception {
         when(mockRestaurantService.restaurantsByName(anyString()))
-                .thenThrow(new RestaurantNotFoundException("RNF-003", "Restaurant name field should not be empty"));
+                .thenThrow(new RestaurantNotFoundException("RNF-003", "RestaurantÂ name field should not be empty"));
 
         mockMvc
                 .perform(get("/restaurant/name/emptyString").contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
@@ -181,12 +179,12 @@ public class RestaurantControllerTest {
                 .andReturn().getResponse().getContentAsString();
 
         final RestaurantListResponse restaurantListResponse = new ObjectMapper().readValue(responseString, RestaurantListResponse.class);
-        assertEquals(restaurantListResponse.getRestaurants().size(), 1);
+        Assert.assertEquals(restaurantListResponse.getRestaurants().size(), 1);
 
         final RestaurantList restaurantList = restaurantListResponse.getRestaurants().get(0);
-        assertEquals(restaurantList.getId().toString(), restaurantEntity.getUuid());
-        assertEquals(restaurantList.getAddress().getId().toString(), restaurantEntity.getAddress().getUuid());
-        assertEquals(restaurantList.getAddress().getState().getId().toString(), restaurantEntity.getAddress().getState().getUuid());
+        Assert.assertEquals(restaurantList.getId().toString(), restaurantEntity.getUuid());
+        Assert.assertEquals(restaurantList.getAddress().getId().toString(), restaurantEntity.getAddress().getUuid());
+        Assert.assertEquals(restaurantList.getAddress().getState().getId().toString(), restaurantEntity.getAddress().getState().getUuid());
 
         verify(mockRestaurantService, times(1)).restaurantByCategory("someCategoryId");
         verify(mockCategoryService, times(1)).getCategoriesByRestaurant(restaurantEntity.getUuid());
@@ -240,12 +238,12 @@ public class RestaurantControllerTest {
                 .andReturn().getResponse().getContentAsString();
 
         final RestaurantListResponse restaurantListResponse = new ObjectMapper().readValue(responseString, RestaurantListResponse.class);
-        assertEquals(restaurantListResponse.getRestaurants().size(), 1);
+        Assert.assertEquals(restaurantListResponse.getRestaurants().size(), 1);
 
         final RestaurantList restaurantList = restaurantListResponse.getRestaurants().get(0);
-        assertEquals(restaurantList.getId().toString(), restaurantEntity.getUuid());
-        assertEquals(restaurantList.getAddress().getId().toString(), restaurantEntity.getAddress().getUuid());
-        assertEquals(restaurantList.getAddress().getState().getId().toString(), restaurantEntity.getAddress().getState().getUuid());
+        Assert.assertEquals(restaurantList.getId().toString(), restaurantEntity.getUuid());
+        Assert.assertEquals(restaurantList.getAddress().getId().toString(), restaurantEntity.getAddress().getUuid());
+        Assert.assertEquals(restaurantList.getAddress().getState().getId().toString(), restaurantEntity.getAddress().getState().getUuid());
 
         verify(mockRestaurantService, times(1)).restaurantsByRating();
         verify(mockCategoryService, times(1)).getCategoriesByRestaurant(restaurantEntity.getUuid());
@@ -346,7 +344,7 @@ public class RestaurantControllerTest {
 
         mockMvc
                 .perform(get("/restaurant/emptyString").contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                .header("authorization", "Bearer database_accesstoken2"))
+                        .header("authorization", "Bearer database_accesstoken2"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("code").value("RNF-002"));
         verify(mockCustomerService, times(0)).getCustomer("database_accesstoken2");
@@ -469,5 +467,3 @@ public class RestaurantControllerTest {
         return restaurantEntity;
     }
 }
-
- */

@@ -1,12 +1,11 @@
 package com.upgrad.FoodOrderingApp.service.businness;
 
+import com.upgrad.FoodOrderingApp.service.dao.CategoryDao;
 import com.upgrad.FoodOrderingApp.service.dao.RestaurantDao;
+import com.upgrad.FoodOrderingApp.service.entity.CategoryEntity;
 import com.upgrad.FoodOrderingApp.service.entity.RestaurantCategoryEntity;
 import com.upgrad.FoodOrderingApp.service.entity.RestaurantEntity;
-import com.upgrad.FoodOrderingApp.service.exception.AuthorizationFailedException;
-import com.upgrad.FoodOrderingApp.service.exception.InvalidRatingException;
-import com.upgrad.FoodOrderingApp.service.exception.RestaurantNotFoundException;
-import com.upgrad.FoodOrderingApp.service.exception.UpdateCustomerException;
+import com.upgrad.FoodOrderingApp.service.exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -22,7 +21,9 @@ import org.springframework.transaction.annotation.Propagation;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RestaurantService {
@@ -31,27 +32,59 @@ public class RestaurantService {
     private RestaurantDao restaurantDao;
 
     @Autowired
+    private CategoryDao categoryDao;
+
+    @Autowired
     private CustomerService customerAdminBusinessService;
 
     public List<RestaurantEntity> getAllRestaurants() {
         return restaurantDao.getAllRestaurants();
     }
 
-    public List<RestaurantEntity> getRestaurantsByName(String restaurantName) {
+    public List<RestaurantEntity> restaurantsByRating() {
+        return restaurantDao.restaurantsByRating();
+    }
+
+    public List<RestaurantEntity> restaurantsByName(String restaurantName) throws RestaurantNotFoundException {
+        if(restaurantName.equals("") || restaurantName == ""){
+            throw new RestaurantNotFoundException("RNF-003", "RestaurantÂ name field should not be empty");
+        }
         return restaurantDao.getRestaurantsByName(restaurantName);
     }
 
-    public List<RestaurantCategoryEntity> getRestaurantByCategoryId(final Long categoryID) {
+    public List<RestaurantCategoryEntity> getRestaurantByCategoryID(final Long categoryID) {
         return restaurantDao.getRestaurantByCategoryId(categoryID);
     }
 
+    public List<RestaurantEntity> restaurantByCategory(final String categoryId) throws CategoryNotFoundException {
+
+        if (categoryId.equals("") || categoryId == "") {
+            throw new CategoryNotFoundException("CNF-001", "Category id field should not be empty");
+        }
+
+        CategoryEntity categoryEntity = categoryDao.getCategoryByUUId(categoryId);
+
+        if(categoryEntity == null) {
+            throw new CategoryNotFoundException("CNF-002", "No category by this id");
+        }
+
+        List<RestaurantEntity> restaurantEntityList = categoryEntity.getRestaurants();
+        restaurantEntityList.sort(Comparator.comparing(RestaurantEntity::getRestaurantName));
+        return restaurantEntityList;
+    }
+
+
     public RestaurantEntity restaurantByUUID(String restaurantUUID) throws RestaurantNotFoundException {
-        RestaurantEntity entity = restaurantDao.restaurantByUUID(restaurantUUID);
-        if(entity == null)
-        {
+        if(restaurantUUID == null || restaurantUUID.isEmpty()){
+            throw new RestaurantNotFoundException("RNF-002", "Restaurant id field should not be empty");
+        }
+
+        RestaurantEntity restaurantEntity =  restaurantDao.restaurantByUUID(restaurantUUID);
+
+        if (restaurantEntity == null) {
             throw new RestaurantNotFoundException("RNF-001", "No restaurant by this id");
         }
-        return  entity;
+        return restaurantDao.restaurantByUUID(restaurantUUID);
     }
 
     @Transactional
@@ -88,7 +121,6 @@ public class RestaurantService {
 
     @Transactional
     public RestaurantEntity updateRestaurantRating(RestaurantEntity restaurantEntity, Double cu) throws AuthorizationFailedException, RestaurantNotFoundException, InvalidRatingException {
-
 
         if(restaurantEntity.getId() == null)
         {
