@@ -20,35 +20,35 @@ public class CustomerDao {
 
 
     //To get Customer By ContactNumber if no results return null
-    public CustomerEntity getCustomerByContactNumber (final String contact_number){
-        try{
-            CustomerEntity customer = entityManager.createNamedQuery("customerByContactNumber",CustomerEntity.class).setParameter("contact_number",contact_number).getSingleResult();
+    public CustomerEntity getCustomerByContactNumber(final String contact_number) {
+        try {
+            CustomerEntity customer = entityManager.createNamedQuery("customerByContactNumber", CustomerEntity.class).setParameter("contact_number", contact_number).getSingleResult();
             return customer;
-        }catch (NoResultException nre){
+        } catch (NoResultException nre) {
             return null;
         }
     }
 
 
     //To save the new customer entity
-    public CustomerEntity createCustomer(CustomerEntity customerEntity){
+    public CustomerEntity createCustomer(CustomerEntity customerEntity) {
         entityManager.persist(customerEntity);
         return customerEntity;
     }
 
     //To update customer
-    public CustomerEntity updateCustomer(CustomerEntity customerToBeUpdated){
+    public CustomerEntity updateCustomer(CustomerEntity customerToBeUpdated) {
         entityManager.merge(customerToBeUpdated);
         return customerToBeUpdated;
     }
 
 
     //To get Customer By Uuid if no results return null
-    public CustomerEntity getCustomerByUuid (final String uuid){
+    public CustomerEntity getCustomerByUuid(final String uuid) {
         try {
-            CustomerEntity customer = entityManager.createNamedQuery("customerByUuid",CustomerEntity.class).setParameter("uuid",uuid).getSingleResult();
+            CustomerEntity customer = entityManager.createNamedQuery("customerByUuid", CustomerEntity.class).setParameter("uuid", uuid).getSingleResult();
             return customer;
-        }catch (NoResultException nre){
+        } catch (NoResultException nre) {
             return null;
         }
     }
@@ -57,7 +57,7 @@ public class CustomerDao {
         try {
             return entityManager.createNamedQuery("getCustomerAuthByAccessToken", CustomerAuthEntity.class)
                     .setParameter("access_Token", accessToken).getSingleResult();
-        } catch(NoResultException nre) {
+        } catch (NoResultException nre) {
             return null;
         }
     }

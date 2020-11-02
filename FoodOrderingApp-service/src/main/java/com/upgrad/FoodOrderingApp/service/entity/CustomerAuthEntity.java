@@ -14,7 +14,7 @@ import java.time.ZonedDateTime;
 //This Class represents the CustomerAuth table in the DB.
 
 @Entity
-@Table(name = "customer_auth",uniqueConstraints = {@UniqueConstraint(columnNames = {"uuid"})})
+@Table(name = "customer_auth", uniqueConstraints = {@UniqueConstraint(columnNames = {"uuid"})})
 @NamedQueries({
         @NamedQuery(name = "getCustomerAuthByAccessToken", query = "SELECT c from CustomerAuthEntity c where c.accessToken = :access_Token"),
 })
@@ -26,7 +26,7 @@ public class CustomerAuthEntity implements Serializable {
     private Integer id;
 
     @Column(name = "uuid")
-    @Size (max = 200)
+    @Size(max = 200)
     @NotNull
     private String uuid;
 

@@ -38,8 +38,8 @@ public class CustomerController {
     and generate response in SignupCustomerResponse and returns UUID of newly Created Customer and Success message else Return error code and error Message.
      */
     @CrossOrigin
-    @RequestMapping(method = RequestMethod.POST,path = "/signup",consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<SignupCustomerResponse> signUpCustomer(@RequestBody(required = false)  final SignupCustomerRequest signupCustomerRequest)throws SignUpRestrictedException {
+    @RequestMapping(method = RequestMethod.POST, path = "/signup", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<SignupCustomerResponse> signUpCustomer(@RequestBody(required = false) final SignupCustomerRequest signupCustomerRequest) throws SignUpRestrictedException {
         //Creating new Customer entity from the request data
         CustomerEntity customerEntity = new CustomerEntity();
         customerEntity.setFirstName(signupCustomerRequest.getFirstName());
@@ -53,12 +53,12 @@ public class CustomerController {
         utilityClass.isValidSignupRequest(customerEntity);
 
         //Passing the Customer entity to the customerService saveCustomer method to persist in the database.
-        CustomerEntity signedUpCustomer =  customerService.saveCustomer(customerEntity);
+        CustomerEntity signedUpCustomer = customerService.saveCustomer(customerEntity);
 
         //create Response for the Request
         SignupCustomerResponse signupCustomerResponse = new SignupCustomerResponse().id(signedUpCustomer.getUuid()).status("CUSTOMER SUCCESSFULLY REGISTERED");
 
-        return new ResponseEntity<SignupCustomerResponse>(signupCustomerResponse,HttpStatus.CREATED);
+        return new ResponseEntity<SignupCustomerResponse>(signupCustomerResponse, HttpStatus.CREATED);
     }
 
 
@@ -66,8 +66,8 @@ public class CustomerController {
     and response header containing bearer accessToken. If error returns the error code with corresponding Message.
      */
     @CrossOrigin
-    @RequestMapping(method = RequestMethod.POST,path = "/login",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<LoginResponse> customerLogin (@RequestHeader("authorization") final String authorization)throws AuthenticationFailedException {
+    @RequestMapping(method = RequestMethod.POST, path = "/login", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<LoginResponse> customerLogin(@RequestHeader("authorization") final String authorization) throws AuthenticationFailedException {
 
         //Checking if the authorization is in valid format
         utilityClass.isValidAuthorizationFormat(authorization);
@@ -78,7 +78,7 @@ public class CustomerController {
         String[] decodedArray = decodedAuth.split(":");
 
         // Calls CustomerService method authenticate to authenticate the login request. if authenticated it returns CustomerAuthEntity conating the details as required.
-        CustomerAuthEntity customerAuthEntity = customerService.authenticate(decodedArray[0],decodedArray[1]);
+        CustomerAuthEntity customerAuthEntity = customerService.authenticate(decodedArray[0], decodedArray[1]);
 
 
         //Creating header to add the accessToken
@@ -99,7 +99,7 @@ public class CustomerController {
                 .lastName(customerAuthEntity.getCustomer().getLastName())
                 .message("LOGGED IN SUCCESSFULLY");
 
-        return new ResponseEntity<LoginResponse>(loginResponse,headers,HttpStatus.OK);
+        return new ResponseEntity<LoginResponse>(loginResponse, headers, HttpStatus.OK);
     }
 
 
@@ -107,28 +107,28 @@ public class CustomerController {
     and returns a LogoutResponse conatining UUID of customer and the successful message.If error returns the error code with corresponding Message.
      */
     @CrossOrigin
-    @RequestMapping(method = RequestMethod.POST,path = "/logout",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<LogoutResponse> customerLogout (@RequestHeader("authorization")final String authorization)throws AuthorizationFailedException {
+    @RequestMapping(method = RequestMethod.POST, path = "/logout", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<LogoutResponse> customerLogout(@RequestHeader("authorization") final String authorization) throws AuthorizationFailedException {
         //Access the accessToken from the request Header
         String accessToken = authorization.split("Bearer ")[1];
 
         //Calls customerService logout method which takes accessToken,if data is all right updates customerAuthEntity logout time and returns updated one.
-        CustomerAuthEntity customerAuthEntity =  customerService.logout(accessToken);
+        CustomerAuthEntity customerAuthEntity = customerService.logout(accessToken);
 
         //Creating Logout response for the request containing UUID and Successful message.
         LogoutResponse logoutResponse = new LogoutResponse()
                 .id(customerAuthEntity.getCustomer().getUuid())
                 .message("LOGGED OUT SUCCESSFULLY");
 
-        return new ResponseEntity<LogoutResponse>(logoutResponse,HttpStatus.OK);
+        return new ResponseEntity<LogoutResponse>(logoutResponse, HttpStatus.OK);
     }
 
     /* This method handles the customer details update request. Takes the request as UpdateCustomerRequest and produces UpdateCustomerResponse containing the details of the updated Customer.
     If error returns the error code with corresponding Message.
      */
     @CrossOrigin
-    @RequestMapping(method = RequestMethod.PUT,path = "",consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<UpdateCustomerResponse> updateCustomerDetails(@RequestHeader("authorization")final String authorization,@RequestBody(required = false) UpdateCustomerRequest updateCustomerRequest)throws AuthorizationFailedException,UpdateCustomerException{
+    @RequestMapping(method = RequestMethod.PUT, path = "", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<UpdateCustomerResponse> updateCustomerDetails(@RequestHeader("authorization") final String authorization, @RequestBody(required = false) UpdateCustomerRequest updateCustomerRequest) throws AuthorizationFailedException, UpdateCustomerException {
 
         //Checking if the request is valid
         utilityClass.isValidUpdateCustomerRequest(updateCustomerRequest.getFirstName());
@@ -153,18 +153,18 @@ public class CustomerController {
                 .id(updatedCustomerEntity.getUuid())
                 .status("CUSTOMER DETAILS UPDATED SUCCESSFULLY");
 
-        return new ResponseEntity<UpdateCustomerResponse>(updateCustomerResponse,HttpStatus.OK);
+        return new ResponseEntity<UpdateCustomerResponse>(updateCustomerResponse, HttpStatus.OK);
     }
 
     /* This method is used to change password of the customer.It takes updatePasswordRequest and produces updatePasswordResponse containing UUID and the successful message.
     If error returns the error code with corresponding Message.
      */
     @CrossOrigin
-    @RequestMapping(method = RequestMethod.PUT,path = "/password",consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<UpdatePasswordResponse> updateCustomerPassword(@RequestHeader ("authorization") final String authorization,@RequestBody(required = false) UpdatePasswordRequest updatePasswordRequest)throws AuthorizationFailedException,UpdateCustomerException{
+    @RequestMapping(method = RequestMethod.PUT, path = "/password", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<UpdatePasswordResponse> updateCustomerPassword(@RequestHeader("authorization") final String authorization, @RequestBody(required = false) UpdatePasswordRequest updatePasswordRequest) throws AuthorizationFailedException, UpdateCustomerException {
 
         //Checking if the data received is valid
-        utilityClass.isValidUpdatePasswordRequest(updatePasswordRequest.getOldPassword(),updatePasswordRequest.getNewPassword());
+        utilityClass.isValidUpdatePasswordRequest(updatePasswordRequest.getOldPassword(), updatePasswordRequest.getNewPassword());
 
         //Access the accessToken from the request Header
         String accessToken = authorization.split("Bearer ")[1];
@@ -178,14 +178,14 @@ public class CustomerController {
         CustomerEntity toBeUpdatedCustomerEntity = customerService.getCustomer(accessToken);
 
         //updating the customer entity
-        CustomerEntity updatedCustomerEntity = customerService.updateCustomerPassword(oldPassword,newPassword,toBeUpdatedCustomerEntity);
+        CustomerEntity updatedCustomerEntity = customerService.updateCustomerPassword(oldPassword, newPassword, toBeUpdatedCustomerEntity);
 
         //Creating the UpadtePasswordResponse with updated details.
         UpdatePasswordResponse updatePasswordResponse = new UpdatePasswordResponse()
                 .id(updatedCustomerEntity.getUuid())
                 .status("CUSTOMER PASSWORD UPDATED SUCCESSFULLY");
 
-        return new ResponseEntity<UpdatePasswordResponse>(updatePasswordResponse,HttpStatus.OK);
+        return new ResponseEntity<UpdatePasswordResponse>(updatePasswordResponse, HttpStatus.OK);
     }
 
 }

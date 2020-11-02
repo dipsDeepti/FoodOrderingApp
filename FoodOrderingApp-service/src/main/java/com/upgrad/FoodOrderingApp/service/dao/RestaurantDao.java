@@ -10,7 +10,7 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
-public class RestaurantDao  {
+public class RestaurantDao {
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -18,31 +18,31 @@ public class RestaurantDao  {
     public List<RestaurantEntity> getAllRestaurants() {
         try {
             return entityManager.createNamedQuery("allRestaurants", RestaurantEntity.class).getResultList();
-        } catch(NoResultException nre) {
+        } catch (NoResultException nre) {
             return null;
         }
     }
 
     public List<RestaurantEntity> getRestaurantsByName(String restaurantName) {
         try {
-            return entityManager.createNamedQuery("findByName", RestaurantEntity.class).setParameter("restaurantName","%" + restaurantName.toLowerCase() + "%" ).getResultList();
-        } catch(NoResultException nre) {
+            return entityManager.createNamedQuery("findByName", RestaurantEntity.class).setParameter("restaurantName", "%" + restaurantName.toLowerCase() + "%").getResultList();
+        } catch (NoResultException nre) {
             return null;
         }
     }
 
     public List<RestaurantCategoryEntity> getRestaurantByCategoryId(final Long categoryID) {
         try {
-            return entityManager.createNamedQuery("restaurantsByCategoryId", RestaurantCategoryEntity.class).setParameter("id",categoryID).getResultList();
-        } catch(NoResultException nre) {
+            return entityManager.createNamedQuery("restaurantsByCategoryId", RestaurantCategoryEntity.class).setParameter("id", categoryID).getResultList();
+        } catch (NoResultException nre) {
             return null;
         }
     }
 
     public RestaurantEntity restaurantByUUID(String restaurantUUID) {
         try {
-            return entityManager.createNamedQuery("findRestaurantByUUId", RestaurantEntity.class).setParameter("restaurantUUID",restaurantUUID.toLowerCase()).getSingleResult();
-        } catch(NoResultException nre) {
+            return entityManager.createNamedQuery("findRestaurantByUUId", RestaurantEntity.class).setParameter("restaurantUUID", restaurantUUID.toLowerCase()).getSingleResult();
+        } catch (NoResultException nre) {
             return null;
         }
     }

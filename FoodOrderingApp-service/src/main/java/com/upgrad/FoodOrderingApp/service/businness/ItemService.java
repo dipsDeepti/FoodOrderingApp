@@ -28,14 +28,14 @@ public class ItemService {
 
     @Transactional
     // A Method which takes the itemId as parameter for getItemEntityById
-    public ItemEntity getItemEntityById(final Integer itemId){
+    public ItemEntity getItemEntityById(final Integer itemId) {
 
         return itemDao.getItemById(itemId);
     }
 
     @Transactional
     // A Method which takes the item uuid as parameter for getItemEntityByUuid
-    public ItemEntity getItemEntityByUuid(final String itemUuid) throws ItemNotFoundException{
+    public ItemEntity getItemEntityByUuid(final String itemUuid) throws ItemNotFoundException {
 
         ItemEntity itemEntity = itemDao.getItemByUuid(itemUuid);
         if (itemEntity == null) {

@@ -14,19 +14,19 @@ public class CategoryDao {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public CategoryEntity getCategoryByUUId(final String categoryUUId){
+    public CategoryEntity getCategoryByUUId(final String categoryUUId) {
         try {
             return entityManager.createNamedQuery("categoryByUuid", CategoryEntity.class).setParameter("uuid", categoryUUId)
                     .getSingleResult();
-        } catch(NoResultException nre) {
+        } catch (NoResultException nre) {
             return null;
         }
     }
 
-    public List<CategoryEntity> getAllCategories(){
+    public List<CategoryEntity> getAllCategories() {
         try {
             return entityManager.createNamedQuery("allCategories", CategoryEntity.class).getResultList();
-        } catch(NoResultException nre) {
+        } catch (NoResultException nre) {
             return null;
         }
     }

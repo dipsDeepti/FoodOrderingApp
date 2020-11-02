@@ -26,7 +26,7 @@ public class ItemController {
     @Autowired
     private RestaurantService restaurantBusinessService;
 
-    @RequestMapping(method = RequestMethod.GET, path = "/item/restaurant/{restaurant_id}",consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(method = RequestMethod.GET, path = "/item/restaurant/{restaurant_id}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<ItemListResponse> getItemByPopularity(@PathVariable("restaurant_id") final String restaurantUuid)
             throws RestaurantNotFoundException {
 
@@ -41,7 +41,7 @@ public class ItemController {
 
         int itemCount = 0;
 
-        for(ItemEntity ie: itemEntityList) {
+        for (ItemEntity ie : itemEntityList) {
             ItemList itemList = new ItemList().id(UUID.fromString(ie.getUuid()))
                     .itemName(ie.getItemName()).price(ie.getPrice()).itemType(ItemList.ItemTypeEnum.fromValue(ie.getType()));
             itemListResponse.add(itemList);

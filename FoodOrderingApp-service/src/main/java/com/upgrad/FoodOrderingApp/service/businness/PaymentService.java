@@ -14,10 +14,10 @@ import java.util.List;
 public class PaymentService {
     @Autowired
     PaymentDao paymentDao;
+
     @Transactional(propagation = Propagation.REQUIRED)
-    public List<PaymentEntity> getAllPaymentMethods()
-    {
+    public List<PaymentEntity> getAllPaymentMethods() {
         List<PaymentEntity> response = paymentDao.getAllPaymentMethods();
-        return  response;
+        return response;
     }
 }

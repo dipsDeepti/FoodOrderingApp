@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+
 import com.upgrad.FoodOrderingApp.service.common.ItemType;
 
 @Entity
@@ -31,7 +32,7 @@ public class ItemEntity implements Serializable {
     @Size(max = 30)
     private String itemName;
 
-    @Column(name="PRICE")
+    @Column(name = "PRICE")
     @NotNull
     private Integer price;
 
