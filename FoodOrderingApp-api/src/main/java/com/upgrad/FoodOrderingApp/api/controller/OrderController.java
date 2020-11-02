@@ -1,9 +1,9 @@
 package com.upgrad.FoodOrderingApp.api.controller;
 
 import com.upgrad.FoodOrderingApp.api.model.*;
-import com.upgrad.FoodOrderingApp.service.businness.CustomerService;
-import com.upgrad.FoodOrderingApp.service.businness.OrderService;
+import com.upgrad.FoodOrderingApp.service.businness.*;
 import com.upgrad.FoodOrderingApp.service.entity.*;
+import com.upgrad.FoodOrderingApp.service.exception.AddressNotFoundException;
 import com.upgrad.FoodOrderingApp.service.exception.AuthorizationFailedException;
 import com.upgrad.FoodOrderingApp.service.exception.CouponNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +27,16 @@ public class OrderController {
 
     @Autowired
     CustomerService customerService;
+
+    @Autowired
+    AddressService addressService;
+
+    @Autowired
+    RestaurantService restaurantService;
+
+    @Autowired
+    PaymentService paymentService;
+
 
     @CrossOrigin
     @RequestMapping(method = RequestMethod.GET, path = "/order/coupon/{coupon_name}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -94,4 +104,28 @@ public class OrderController {
 
     }
 
+    @CrossOrigin
+    @RequestMapping(method = RequestMethod.POST, path = "/order", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<SaveOrderResponse> saveOrder(@RequestHeader("authorization") final String authorization, @RequestBody(required = false) SaveOrderRequest saveOrderRequest) throws AuthorizationFailedException, AddressNotFoundException{
+        String accessToken = authorization.split("Bearer ")[1];
+
+        CustomerEntity customerEntity = customerService.getCustomer(accessToken);
+
+        OrderEntity orderEntity = new OrderEntity();
+
+        AddressEntity addressEntity = addressService.getAddressByUUID(saveOrderRequest.getAddressId(), customerEntity);
+        PaymentEntity paymentEntity = paymentService.getPaymentByUUID(saveOrderRequest.getPaymentId().toString());
+        CouponEntity couponEntity = orderService.getCouponByCouponId(saveOrderRequest.getCouponId().toString());
+
+
+        orderEntity.setCustomer(customerEntity);
+        orderEntity.setAddress(addressEntity);
+        orderEntity.setCoupon(couponEntity);
+        //orderEntity.setPayment();
+        //orderEntity.setBill(BigDecimal.valueOf(saveOrderRequest.getBill()));
+
+        SaveOrderResponse saveOrderResponse = new SaveOrderResponse().id(orderEntity.getUuid()).status("ORDER SUCCESSFULLY PLACED");
+
+        return new ResponseEntity<SaveOrderResponse>(saveOrderResponse, HttpStatus.OK);
+    }
 }

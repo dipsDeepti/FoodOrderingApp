@@ -5,6 +5,7 @@ import com.upgrad.FoodOrderingApp.service.dao.CustomerAuthDao;
 import com.upgrad.FoodOrderingApp.service.dao.OrderDao;
 import com.upgrad.FoodOrderingApp.service.entity.CouponEntity;
 import com.upgrad.FoodOrderingApp.service.entity.OrderEntity;
+import com.upgrad.FoodOrderingApp.service.entity.OrderItemEntity;
 import com.upgrad.FoodOrderingApp.service.exception.AuthorizationFailedException;
 import com.upgrad.FoodOrderingApp.service.exception.CouponNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,20 @@ public class OrderService {
     public List<OrderEntity> getOrdersByCustomers(String customerId){
         List<OrderEntity> listOfOrders = orderDao.getAllPastOrders(customerId);
         return listOfOrders;
+    }
+
+    public CouponEntity getCouponByCouponId(String couponId){
+        CouponEntity couponEntity = orderDao.getCouponByCouponId(couponId);
+        return  couponEntity;
+    }
+
+    public OrderEntity saveOrder(OrderEntity orderEntity){
+        return orderDao.saveOrder(orderEntity);
+
+    }
+
+    public OrderItemEntity saveOrderItem(OrderItemEntity orderItemEntity){
+        return orderDao.saveOrderItem(orderItemEntity);
     }
 }
 
