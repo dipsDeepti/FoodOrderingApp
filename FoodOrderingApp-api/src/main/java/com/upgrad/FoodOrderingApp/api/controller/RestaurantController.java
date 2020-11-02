@@ -212,7 +212,7 @@ public class RestaurantController {
         StateEntity stateEntity = stateBusinessService.getStateById((long)addressEntity.getState().getId());
         RestaurantDetailsResponseAddressState responseAddressState = new RestaurantDetailsResponseAddressState();
 
-        responseAddressState.setId(UUID.fromString(stateEntity.getStateUuid()));
+        responseAddressState.setId(UUID.fromString(stateEntity.getUuid()));
         responseAddressState.setStateName(stateEntity.getStateName());
         responseAddress.setState(responseAddressState);
 

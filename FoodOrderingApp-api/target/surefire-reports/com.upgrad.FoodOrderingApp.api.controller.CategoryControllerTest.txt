@@ -1,0 +1,10 @@
+-------------------------------------------------------------------------------
+Test set: com.upgrad.FoodOrderingApp.api.controller.CategoryControllerTest
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 6.305 s <<< FAILURE! - in com.upgrad.FoodOrderingApp.api.controller.CategoryControllerTest
+shouldNotGetCategoryByIdIfCategoryDoesNotExistAgainstGivenId(com.upgrad.FoodOrderingApp.api.controller.CategoryControllerTest)  Time elapsed: 0.04 s  <<< ERROR!
+org.springframework.web.util.NestedServletException: Request processing failed; nested exception is java.lang.NullPointerException
+	at com.upgrad.FoodOrderingApp.api.controller.CategoryControllerTest.shouldNotGetCategoryByIdIfCategoryDoesNotExistAgainstGivenId(CategoryControllerTest.java:100)
+Caused by: java.lang.NullPointerException
+	at com.upgrad.FoodOrderingApp.api.controller.CategoryControllerTest.shouldNotGetCategoryByIdIfCategoryDoesNotExistAgainstGivenId(CategoryControllerTest.java:100)
+
