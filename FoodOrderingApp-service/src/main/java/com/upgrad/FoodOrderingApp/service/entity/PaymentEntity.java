@@ -39,6 +39,15 @@ public class PaymentEntity implements Serializable {
     @NotNull
     private String paymentName;
 
+    public PaymentEntity(){
+
+    }
+
+    public PaymentEntity(String uuid, String paymentName){
+        this.uuid = uuid;
+        this.paymentName = paymentName;
+    }
+
     public String getPaymentName() {
         return paymentName;
     }

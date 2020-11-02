@@ -27,7 +27,6 @@ import java.util.Date;
 })
 public class OrderEntity implements Serializable {
 
-
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,7 +51,7 @@ public class OrderEntity implements Serializable {
 
     @Column(name = "date")
     @NotNull
-    private Timestamp date;
+    private Date date;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "payment_id")
@@ -68,18 +67,16 @@ public class OrderEntity implements Serializable {
     @NotNull
     private AddressEntity address;
 
-   /* @ManyToOne(fetch = FetchType.EAGER)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "restaurant_id")
-    private RestaurantEntity restaurant;*/
+    @NotNull
+    private RestaurantEntity restaurant;
 
-    public OrderEntity() {
+    public OrderEntity(){
 
     }
 
-    public OrderEntity(String uuid, Double bill, CouponEntity couponEntity, Double discount, Timestamp orderDate, PaymentEntity paymentEntity, CustomerEntity customerEntity, AddressEntity addressEntity
-                       // , RestaurantEntity restaurantEntity
-    ) {
+    public OrderEntity(String uuid, Double bill, CouponEntity couponEntity, Double discount, Date orderDate, PaymentEntity paymentEntity, CustomerEntity customerEntity, AddressEntity addressEntity, RestaurantEntity restaurantEntity) {
         this.uuid = uuid;
         this.bill = bill;
         this.coupon = couponEntity;
@@ -88,7 +85,7 @@ public class OrderEntity implements Serializable {
         this.payment = paymentEntity;
         this.customer = customerEntity;
         this.address = addressEntity;
-        // this.restaurant = restaurantEntity;
+        this.restaurant = restaurantEntity;
 
     }
 
@@ -133,11 +130,11 @@ public class OrderEntity implements Serializable {
         this.discount = discount;
     }
 
-    public Timestamp getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(Timestamp date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -165,13 +162,12 @@ public class OrderEntity implements Serializable {
         this.address = address;
     }
 
-    /*public RestaurantEntity getRestaurant() {
+    public RestaurantEntity getRestaurant() {
         return restaurant;
     }
 
     public void setRestaurant(RestaurantEntity restaurant) {
         this.restaurant = restaurant;
     }
-
-     */
 }
+

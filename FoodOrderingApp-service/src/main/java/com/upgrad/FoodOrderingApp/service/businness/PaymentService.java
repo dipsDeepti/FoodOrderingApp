@@ -20,4 +20,9 @@ public class PaymentService {
         List<PaymentEntity> response = paymentDao.getAllPaymentMethods();
         return response;
     }
+
+    public PaymentEntity getPaymentByUUID(String uuId){
+        PaymentEntity paymentEntity = paymentDao.getPaymentByUuid(uuId);
+        return paymentEntity;
+    }
 }
