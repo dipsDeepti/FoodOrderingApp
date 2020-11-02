@@ -34,10 +34,10 @@ public class CategoryEntity implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "category_item",
-            joinColumns = @JoinColumn(name = "category_id", referencedColumnName="id", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "item_id", referencedColumnName="id", nullable = false)
+            joinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "item_id", referencedColumnName = "id", nullable = false)
     )
-    private List<ItemEntity> items =new ArrayList<>();
+    private List<ItemEntity> items = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(name = "restaurant_category", joinColumns = @JoinColumn(name = "category_id"),

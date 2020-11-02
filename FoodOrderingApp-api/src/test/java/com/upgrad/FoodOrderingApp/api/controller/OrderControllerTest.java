@@ -383,6 +383,7 @@ public class OrderControllerTest {
         verify(mockOrderService, times(1)).getOrdersByCustomers(customerId);
     }
 
+*/
     //This test case passes when you have handled the exception of trying to fetch placed orders if you are not logged in.
     @Test
     public void shouldNotGetPlacedOrderDetailsIfCustomerIsNotLoggedIn() throws Exception {
@@ -436,8 +437,6 @@ public class OrderControllerTest {
 
     // ------------------------------------------ GET /order/coupon/{coupon_name} ------------------------------------------
 
-
- */
     //This test case passes when you are able to retrieve coupon details by coupon name.
     @Test
     public void shouldGetCouponByName() throws Exception {

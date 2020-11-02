@@ -15,15 +15,15 @@ import java.util.Date;
 //This Class represents the Orders table in the DB
 
 @Entity
-@Table(name = "orders",uniqueConstraints = {@UniqueConstraint(columnNames = {"uuid"})})
+@Table(name = "orders", uniqueConstraints = {@UniqueConstraint(columnNames = {"uuid"})})
 @NamedQueries({
-    //   @NamedQuery(name = "getOrdersByCustomers",query = "SELECT o FROM OrdersEntity o WHERE o.customer = :customer ORDER BY o.date DESC "),
-       // @NamedQuery(name = "getOrdersByRestaurant",query = "SELECT o FROM OrdersEntity o WHERE o.restaurant = :restaurant"),
-      //  @NamedQuery(name = "getOrdersByAddress",query = "SELECT o FROM OrdersEntity o WHERE o.address = :address"),
-       // @NamedQuery(name = "ordersByUuid",query="select o from OrdersEntity o where o.uuid=:uuid"),
-       // @NamedQuery(name = "ordersById", query = "select o from OrdersEntity o where o.id=:id"),
-       // @NamedQuery(name = "ordersByCustomer", query = "select o from OrdersEntity o where o.customer=:customer order by o.date desc"),
-       // @NamedQuery(name = "ordersByRestaurant", query = "select o from OrdersEntity o where o.restaurant=:restaurant order by o.date desc")
+          @NamedQuery(name = "getOrdersByCustomers",query = "SELECT o FROM OrderEntity o WHERE o.customer = :customer ORDER BY o.date DESC ")
+        // @NamedQuery(name = "getOrdersByRestaurant",query = "SELECT o FROM OrdersEntity o WHERE o.restaurant = :restaurant"),
+        //  @NamedQuery(name = "getOrdersByAddress",query = "SELECT o FROM OrdersEntity o WHERE o.address = :address"),
+        // @NamedQuery(name = "ordersByUuid",query="select o from OrdersEntity o where o.uuid=:uuid"),
+        // @NamedQuery(name = "ordersById", query = "select o from OrdersEntity o where o.id=:id"),
+        // @NamedQuery(name = "ordersByCustomer", query = "select o from OrdersEntity o where o.customer=:customer order by o.date desc"),
+        // @NamedQuery(name = "ordersByRestaurant", query = "select o from OrdersEntity o where o.restaurant=:restaurant order by o.date desc")
 })
 public class OrderEntity implements Serializable {
 
@@ -52,7 +52,7 @@ public class OrderEntity implements Serializable {
 
     @Column(name = "date")
     @NotNull
-    private Timestamp  date;
+    private Timestamp date;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "payment_id")
@@ -73,12 +73,12 @@ public class OrderEntity implements Serializable {
     @JoinColumn(name = "restaurant_id")
     private RestaurantEntity restaurant;*/
 
-    public OrderEntity(){
+    public OrderEntity() {
 
     }
 
     public OrderEntity(String uuid, Double bill, CouponEntity couponEntity, Double discount, Timestamp orderDate, PaymentEntity paymentEntity, CustomerEntity customerEntity, AddressEntity addressEntity
-           // , RestaurantEntity restaurantEntity
+                       // , RestaurantEntity restaurantEntity
     ) {
         this.uuid = uuid;
         this.bill = bill;
@@ -88,7 +88,7 @@ public class OrderEntity implements Serializable {
         this.payment = paymentEntity;
         this.customer = customerEntity;
         this.address = addressEntity;
-       // this.restaurant = restaurantEntity;
+        // this.restaurant = restaurantEntity;
 
     }
 

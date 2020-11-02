@@ -13,11 +13,11 @@ public class CouponDao {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public CouponEntity getCouponDetails(final String couponName){
-        try{
-            CouponEntity couponDetails = entityManager.createNamedQuery("couponByName",CouponEntity.class).setParameter("cpn_name",couponName).getSingleResult();
+    public CouponEntity getCouponDetails(final String couponName) {
+        try {
+            CouponEntity couponDetails = entityManager.createNamedQuery("couponByName", CouponEntity.class).setParameter("cpn_name", couponName).getSingleResult();
             return couponDetails;
-        }catch (NoResultException nre){
+        } catch (NoResultException nre) {
             return null;
         }
 

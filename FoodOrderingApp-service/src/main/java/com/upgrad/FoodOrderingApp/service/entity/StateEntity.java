@@ -13,13 +13,13 @@ import java.io.Serializable;
 //This Class represents the StateEntity table in the DB.
 
 @Entity
-@Table(name = "state",uniqueConstraints = {@UniqueConstraint(columnNames = {"uuid"})})
+@Table(name = "state", uniqueConstraints = {@UniqueConstraint(columnNames = {"uuid"})})
 @NamedQueries({
 
         @NamedQuery(name = "getStateByUuid", query = "SELECT s from StateEntity s where s.Uuid = :uuid"),
-        @NamedQuery(name = "getAllStates",query = "SELECT s from StateEntity s"),
+        @NamedQuery(name = "getAllStates", query = "SELECT s from StateEntity s"),
         @NamedQuery(name = "allStates", query = "select s from StateEntity s"),
-        @NamedQuery(name = "stateByUuid",query="select s from StateEntity s where s.Uuid=:uuid"),
+        @NamedQuery(name = "stateByUuid", query = "select s from StateEntity s where s.Uuid=:uuid"),
         @NamedQuery(name = "stateById", query = "select s from StateEntity s where s.id=:id")
 
 })

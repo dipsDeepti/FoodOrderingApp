@@ -8,7 +8,7 @@ import java.io.Serializable;
 //This Class represents the Customer table in the DB.
 
 @Entity
-@Table(name = "customer",uniqueConstraints = {@UniqueConstraint(columnNames = {"uuid","contact_number"})})
+@Table(name = "customer", uniqueConstraints = {@UniqueConstraint(columnNames = {"uuid", "contact_number"})})
 @NamedQueries(
         {
 
@@ -17,8 +17,6 @@ import java.io.Serializable;
         }
 )
 public class CustomerEntity implements Serializable {
-
-
 
     @Id
     @Column(name = "id")

@@ -38,8 +38,8 @@ public class CategoryService {
         return categoryEntity;
     }
 
-    public CategoryEntity getCategoryEntityByUuid(final String categoryUUId){
-        return  categoryDao.getCategoryByUUId(categoryUUId);
+    public CategoryEntity getCategoryEntityByUuid(final String categoryUUId) {
+        return categoryDao.getCategoryByUUId(categoryUUId);
     }
 
     public List<CategoryEntity> getAllCategoriesOrderedByName() {
@@ -56,8 +56,8 @@ public class CategoryService {
     }
 
 
-    public List<CategoryEntity> getAllCategories(){
-        return  categoryDao.getAllCategories();
+    public List<CategoryEntity> getAllCategories() {
+        return categoryDao.getAllCategories();
     }
 
 }

@@ -14,11 +14,11 @@ public class PaymentDao {
     private EntityManager entityManager;
 
     //To get all payment methods
-    public List<PaymentEntity> getAllPaymentMethods (){
-        try{
-            List<PaymentEntity> paymentMethods = entityManager.createNamedQuery("getAllPaymentMethods",PaymentEntity.class).getResultList();
+    public List<PaymentEntity> getAllPaymentMethods() {
+        try {
+            List<PaymentEntity> paymentMethods = entityManager.createNamedQuery("getAllPaymentMethods", PaymentEntity.class).getResultList();
             return paymentMethods;
-        }catch (NoResultException nre){
+        } catch (NoResultException nre) {
             return null;
         }
     }

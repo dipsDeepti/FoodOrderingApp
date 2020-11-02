@@ -9,11 +9,11 @@ import java.io.Serializable;
 //This Class represents the Coupon table in the DB
 
 @Entity
-@Table(name = "coupon",uniqueConstraints = {@UniqueConstraint(columnNames = {"uuid"})})
+@Table(name = "coupon", uniqueConstraints = {@UniqueConstraint(columnNames = {"uuid"})})
 @NamedQueries({
-        @NamedQuery(name = "getCouponByCouponName",query = "SELECT c FROM CouponEntity c WHERE c.couponName = :coupon_name"),
+        @NamedQuery(name = "getCouponByCouponName", query = "SELECT c FROM CouponEntity c WHERE c.couponName = :coupon_name"),
         @NamedQuery(name = "couponByUuid", query = "select c from CouponEntity c where c.uuid=:uuid"),
-        @NamedQuery(name = "getCouponByCouponId",query = "SELECT c FROM  CouponEntity c WHERE c.uuid = :uuid"),
+        @NamedQuery(name = "getCouponByCouponId", query = "SELECT c FROM  CouponEntity c WHERE c.uuid = :uuid"),
         @NamedQuery(name = "couponByName", query = "SELECT cpn from CouponEntity cpn where cpn.couponName = :cpn_name")
 })
 public class CouponEntity implements Serializable {
@@ -36,7 +36,7 @@ public class CouponEntity implements Serializable {
     @NotNull
     private Integer percent;
 
-    public CouponEntity(){
+    public CouponEntity() {
 
     }
 

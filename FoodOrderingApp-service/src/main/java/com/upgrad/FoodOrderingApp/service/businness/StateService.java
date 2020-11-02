@@ -15,13 +15,13 @@ public class StateService {
 
     @Transactional
 
-    public StateEntity getStateById (final Long stateId) {
+    public StateEntity getStateById(final Long stateId) {
 
         return stateDao.getStateById(stateId);
     }
 
     @Transactional
-    public StateEntity getStateByUuid (final String stateUuid) {
+    public StateEntity getStateByUuid(final String stateUuid) {
         return stateDao.getStateByUuid(stateUuid);
     }
 }

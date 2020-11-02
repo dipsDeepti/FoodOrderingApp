@@ -19,15 +19,15 @@ import java.util.Set;
 //This Class represents the Restaurant table in the DB
 
 @Entity
-@Table(name = "restaurant",uniqueConstraints = {@UniqueConstraint(columnNames = {"uuid"})})
+@Table(name = "restaurant", uniqueConstraints = {@UniqueConstraint(columnNames = {"uuid"})})
 @NamedQueries({
 
-        @NamedQuery(name = "restaurantsByRating",query = "SELECT r FROM RestaurantEntity r ORDER BY r.customerRating DESC"),
-        @NamedQuery(name = "getRestaurantByUuid",query = "SELECT r FROM RestaurantEntity r WHERE r.uuid = :uuid"),
-        @NamedQuery(name = "restaurantsByName",query = "SELECT r FROM  RestaurantEntity r WHERE LOWER(r.restaurantName) LIKE :restaurant_name_low"),
+        @NamedQuery(name = "restaurantsByRating", query = "SELECT r FROM RestaurantEntity r ORDER BY r.customerRating DESC"),
+        @NamedQuery(name = "getRestaurantByUuid", query = "SELECT r FROM RestaurantEntity r WHERE r.uuid = :uuid"),
+        @NamedQuery(name = "restaurantsByName", query = "SELECT r FROM  RestaurantEntity r WHERE LOWER(r.restaurantName) LIKE :restaurant_name_low"),
         @NamedQuery(name = "allRestaurants", query = "select r from RestaurantEntity r order by r.customerRating desc"),
         @NamedQuery(name = "findByName", query = "select r from RestaurantEntity  r where lower(r.restaurantName) like :restaurantName order by r.restaurantName"),
-        @NamedQuery(name = "findRestaurantByUUId",query = "select r from RestaurantEntity r where lower(r.uuid) = :restaurantUUID")
+        @NamedQuery(name = "findRestaurantByUUId", query = "select r from RestaurantEntity r where lower(r.uuid) = :restaurantUUID")
 })
 public class RestaurantEntity implements Serializable {
 
@@ -70,15 +70,15 @@ public class RestaurantEntity implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "restaurant_category",
-            joinColumns = @JoinColumn(name = "restaurant_id", referencedColumnName="id", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName="id", nullable = false)
+            joinColumns = @JoinColumn(name = "restaurant_id", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false)
     )
     private Set<CategoryEntity> categoryEntities = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "restaurant_item",
-            joinColumns = @JoinColumn(name = "restaurant_id", referencedColumnName="id", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "item_id", referencedColumnName="id", nullable = false)
+            joinColumns = @JoinColumn(name = "restaurant_id", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "item_id", referencedColumnName = "id", nullable = false)
     )
 
     private List<ItemEntity> items = new ArrayList<>();
