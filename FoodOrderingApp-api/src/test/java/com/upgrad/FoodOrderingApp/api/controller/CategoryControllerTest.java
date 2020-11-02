@@ -7,6 +7,7 @@ import com.upgrad.FoodOrderingApp.service.businness.CategoryService;
 import com.upgrad.FoodOrderingApp.service.entity.CategoryEntity;
 import com.upgrad.FoodOrderingApp.service.entity.ItemEntity;
 import com.upgrad.FoodOrderingApp.service.exception.CategoryNotFoundException;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import java.util.Collections;
 import java.util.UUID;
 
 import static com.upgrad.FoodOrderingApp.service.common.ItemType.NON_VEG;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -40,6 +42,7 @@ public class CategoryControllerTest {
     private CategoryService mockCategoryService;
 
     //This test case passes when you have are able to fetch any category by its id.
+    // update category uuid since given category id does not exist in database
     @Test
     public void shouldGetCategoryById() throws Exception {
         final ItemEntity itemEntity = new ItemEntity();
@@ -55,10 +58,10 @@ public class CategoryControllerTest {
         categoryEntity.setItems(Collections.singletonList(itemEntity));
 
 
-        when(mockCategoryService.getCategoryById("sampleCategoryId")).thenReturn(categoryEntity);
+        when(mockCategoryService.getCategoryById("2ddf6158-ecd0-11e8-8eb2-f2801f1b9fd1")).thenReturn(categoryEntity);
 
         final String response = mockMvc
-                .perform(get("/category/sampleCategoryId").contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .perform(get("/category/2ddf6158-ecd0-11e8-8eb2-f2801f1b9fd1").contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
 
@@ -69,7 +72,7 @@ public class CategoryControllerTest {
         assertEquals(categoryDetailsResponse.getItemList().get(0).getId().toString(), itemId);
         assertEquals(categoryDetailsResponse.getItemList().get(0).getPrice().intValue(), 200);
         assertEquals(categoryDetailsResponse.getItemList().get(0).getItemType().toString(), "NON_VEG");
-        verify(mockCategoryService, times(1)).getCategoryById("sampleCategoryId");
+        verify(mockCategoryService, times(1)).getCategoryById("2ddf6158-ecd0-11e8-8eb2-f2801f1b9fd1");
     }
 
     //This test case passes when you have handled the exception of trying to fetch any category but your category id

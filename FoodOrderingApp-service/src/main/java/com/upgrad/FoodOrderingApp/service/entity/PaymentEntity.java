@@ -9,6 +9,8 @@ import java.io.Serializable;
 @Table(name = "payment",uniqueConstraints = {@UniqueConstraint(columnNames = {"uuid","id"})})
 @NamedQueries(
         {
+                @NamedQuery(name = "getPaymentByUUID",query = "SELECT p FROM PaymentEntity p WHERE p.uuid = :uuid"),
+                @NamedQuery(name = "paymentById", query = "select p from PaymentEntity p where p.id=:id"),
                 @NamedQuery(name = "getAllPaymentMethods", query = "SELECT c from PaymentEntity c")
         }
 )

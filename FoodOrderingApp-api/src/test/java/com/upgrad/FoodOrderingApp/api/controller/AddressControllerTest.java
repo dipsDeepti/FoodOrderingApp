@@ -13,6 +13,7 @@ import com.upgrad.FoodOrderingApp.service.entity.StateEntity;
 import com.upgrad.FoodOrderingApp.service.exception.AddressNotFoundException;
 import com.upgrad.FoodOrderingApp.service.exception.AuthorizationFailedException;
 import com.upgrad.FoodOrderingApp.service.exception.SaveAddressException;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Collections;
 import java.util.UUID;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -338,7 +340,9 @@ public class AddressControllerTest {
         assertEquals(addressList.getFlatBuildingName(), "flatBuildNo");
         assertEquals(addressList.getLocality(), "locality");
         assertEquals(addressList.getPincode(), "100000");
-        assertEquals(addressList.getCity(), "city");
+        assertEquals(addressList.getCity(
+
+        ), "city");
         assertEquals(addressList.getState().getId().toString(), stateUuid);
         assertEquals(addressList.getState().getStateName(), "state");
         assertEquals(addressList.getId().toString(), addressUuid);
