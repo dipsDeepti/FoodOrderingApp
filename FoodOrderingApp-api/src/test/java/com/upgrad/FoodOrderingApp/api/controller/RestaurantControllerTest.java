@@ -7,11 +7,14 @@ import com.upgrad.FoodOrderingApp.service.businness.CategoryService;
 import com.upgrad.FoodOrderingApp.service.businness.CustomerService;
 import com.upgrad.FoodOrderingApp.service.businness.ItemService;
 import com.upgrad.FoodOrderingApp.service.businness.RestaurantService;
-import com.upgrad.FoodOrderingApp.service.entity.*;
+import com.upgrad.FoodOrderingApp.service.entity.CategoryEntity;
+import com.upgrad.FoodOrderingApp.service.entity.ItemEntity;
+import com.upgrad.FoodOrderingApp.service.entity.RestaurantEntity;
 import com.upgrad.FoodOrderingApp.service.exception.AuthorizationFailedException;
 import com.upgrad.FoodOrderingApp.service.exception.CategoryNotFoundException;
 import com.upgrad.FoodOrderingApp.service.exception.InvalidRatingException;
 import com.upgrad.FoodOrderingApp.service.exception.RestaurantNotFoundException;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -133,12 +136,12 @@ public class RestaurantControllerTest {
                 .andReturn().getResponse().getContentAsString();
 
         final RestaurantListResponse restaurantListResponse = new ObjectMapper().readValue(responseString, RestaurantListResponse.class);
-        assertEquals(restaurantListResponse.getRestaurants().size(), 1);
+        Assert.assertEquals(restaurantListResponse.getRestaurants().size(), 1);
 
         final RestaurantList restaurantList = restaurantListResponse.getRestaurants().get(0);
-        assertEquals(restaurantList.getId().toString(), restaurantEntity.getUuid());
-        assertEquals(restaurantList.getAddress().getId().toString(), restaurantEntity.getAddress().getUuid());
-        assertEquals(restaurantList.getAddress().getState().getId().toString(), restaurantEntity.getAddress().getState().getUuid());
+        Assert.assertEquals(restaurantList.getId().toString(), restaurantEntity.getUuid());
+        Assert.assertEquals(restaurantList.getAddress().getId().toString(), restaurantEntity.getAddress().getUuid());
+        Assert.assertEquals(restaurantList.getAddress().getState().getId().toString(), restaurantEntity.getAddress().getState().getUuid());
 
         verify(mockRestaurantService, times(1)).restaurantsByName("someRestaurantName");
         verify(mockCategoryService, times(1)).getCategoriesByRestaurant(restaurantEntity.getUuid());

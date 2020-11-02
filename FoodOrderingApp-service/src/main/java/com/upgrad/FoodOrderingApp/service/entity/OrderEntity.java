@@ -22,7 +22,7 @@ import java.util.Date;
         @NamedQuery(name = "ordersByCustomer", query = "select o from OrdersEntity o where o.customer=:customer order by o.date desc"),
         @NamedQuery(name = "ordersByRestaurant", query = "select o from OrdersEntity o where o.restaurant=:restaurant order by o.date desc")
 })
-public class OrdersEntity implements Serializable {
+public class OrderEntity implements Serializable {
 
 
     @Id
@@ -70,11 +70,11 @@ public class OrdersEntity implements Serializable {
     @NotNull
     private RestaurantEntity restaurant;
 
-    public OrdersEntity(){
+    public OrderEntity(){
 
     }
 
-    public OrdersEntity(String uuid, Double bill, CouponEntity couponEntity, Double discount, Timestamp orderDate, PaymentEntity paymentEntity, CustomerEntity customerEntity, AddressEntity addressEntity, RestaurantEntity restaurantEntity) {
+    public OrderEntity(String uuid, Double bill, CouponEntity couponEntity, Double discount, Timestamp orderDate, PaymentEntity paymentEntity, CustomerEntity customerEntity, AddressEntity addressEntity, RestaurantEntity restaurantEntity) {
         this.uuid = uuid;
         this.bill = bill;
         this.coupon = couponEntity;

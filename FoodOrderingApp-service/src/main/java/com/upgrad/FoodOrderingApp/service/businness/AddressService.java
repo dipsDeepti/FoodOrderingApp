@@ -161,7 +161,7 @@ public class AddressService {
     public AddressEntity deleteAddress(AddressEntity addressEntity) {
 
         //Calls getOrdersByAddress of orderDao to orders with corresponding address.
-        List<OrdersEntity> ordersEntities = orderDao.getOrdersByAddress(addressEntity);
+        List<OrderEntity> ordersEntities = orderDao.getOrdersByAddress(addressEntity);
 
         if(ordersEntities == null||ordersEntities.isEmpty()) { //Checking if no orders are present with this address.
             //Calls deleteAddress of addressDao to delete the corresponding address.

@@ -5,7 +5,7 @@ import com.upgrad.FoodOrderingApp.service.dao.OrderDao;
 import com.upgrad.FoodOrderingApp.service.dao.OrderItemDao;
 import com.upgrad.FoodOrderingApp.service.entity.ItemEntity;
 import com.upgrad.FoodOrderingApp.service.entity.OrderItemEntity;
-import com.upgrad.FoodOrderingApp.service.entity.OrdersEntity;
+import com.upgrad.FoodOrderingApp.service.entity.OrderEntity;
 import com.upgrad.FoodOrderingApp.service.entity.RestaurantEntity;
 import com.upgrad.FoodOrderingApp.service.exception.ItemNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +13,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class ItemService {
@@ -54,7 +52,7 @@ public class ItemService {
         List<ItemEntity> itemEntityList = new ArrayList<>();
 
         // Gets all the orders placed in the restaurant
-        for (OrdersEntity orderEntity : orderDao.getOrdersByRestaurant(restaurantEntity)) {
+        for (OrderEntity orderEntity : orderDao.getOrdersByRestaurant(restaurantEntity)) {
             // Gets items from each order placed in the restaurant
             for (OrderItemEntity orderItemEntity : orderItemDao.getItemsByOrder(orderEntity)) {
                 itemEntityList.add(orderItemEntity.getItem());
@@ -82,7 +80,7 @@ public class ItemService {
         return sortedItemEntityList;
     }
 
-    public List<OrderItemEntity> getItemsByOrder(OrdersEntity orderEntity) {
+    public List<OrderItemEntity> getItemsByOrder(OrderEntity orderEntity) {
         return orderItemDao.getItemsByOrder(orderEntity);
     }
 }
