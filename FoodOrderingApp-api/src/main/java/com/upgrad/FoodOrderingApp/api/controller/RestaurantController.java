@@ -24,16 +24,13 @@ public class RestaurantController {
     private RestaurantService restaurantBusinessService;
 
     @Autowired
-    private AddressService addressService;
-
-    @Autowired
-    private StateService stateBusinessService;
-
-    @Autowired
     private CategoryService categoryBusinessService;
 
     @Autowired
     private CustomerService customerService;
+
+    @Autowired
+    private ItemService itemService;
 
     /**
      * @return List of all restaurants in the database
@@ -177,68 +174,54 @@ public class RestaurantController {
      * @throws RestaurantNotFoundException - When given restaurant id field is empty
      */
     @RequestMapping(method = RequestMethod.GET, path = "/restaurant/{restaurant_id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity restaurantByUUID(@PathVariable String restaurant_id) throws RestaurantNotFoundException {
+    public ResponseEntity<RestaurantDetailsResponse> getRestaurantById(
+            @PathVariable("restaurant_id") final String restaurantId)
+            throws RestaurantNotFoundException, CategoryNotFoundException {
 
-        if (restaurant_id == null || restaurant_id.isEmpty() || restaurant_id.equalsIgnoreCase("\"\"")) {
-            throw new RestaurantNotFoundException("RNF-002", "Restaurant id field should not be empty");
-        }
+        RestaurantEntity restaurantEntity = restaurantBusinessService.restaurantByUUID(restaurantId);
 
-        final RestaurantEntity restaurant = restaurantBusinessService.restaurantByUUID(restaurant_id);
-        if (restaurant == null) {
-            throw new RestaurantNotFoundException("RNF-001", "No restaurant by this id");
-        }
+        RestaurantDetailsResponseAddressState restaurantDetailsResponseAddressState = new RestaurantDetailsResponseAddressState()
+                .id(UUID.fromString(restaurantEntity.getAddress().getState().getUuid()))
+                .stateName(restaurantEntity.getAddress().getState().getStateName());
 
-        RestaurantDetailsResponse details = new RestaurantDetailsResponse();
-        details.setId(UUID.fromString(restaurant.getUuid()));
-        details.setRestaurantName(restaurant.getRestaurantName());
-        details.setPhotoURL(restaurant.getPhotoUrl());
-        BigDecimal customerRating = new BigDecimal(restaurant.getCustomerRating(), MathContext.DECIMAL64);
-        details.setCustomerRating(customerRating);
-        details.setAveragePrice(restaurant.getAvgPrice());
-        details.setNumberCustomersRated(restaurant.getNumberCustomersRated());
+        RestaurantDetailsResponseAddress restaurantDetailsResponseAddress = new RestaurantDetailsResponseAddress()
+                .flatBuildingName(restaurantEntity.getAddress().getFlatBuilNo())
+                .locality(restaurantEntity.getAddress().getLocality())
+                .city(restaurantEntity.getAddress().getCity())
+                .pincode(restaurantEntity.getAddress().getPincode())
+                .state(restaurantDetailsResponseAddressState);
 
-        AddressEntity address = restaurant.getAddress();
-        AddressEntity addressEntity = addressService.getAddressById((long) address.getId());
-        RestaurantDetailsResponseAddress responseAddress = new RestaurantDetailsResponseAddress();
+        Double temp = BigDecimal.valueOf(restaurantEntity.getCustomerRating()).setScale(1, RoundingMode.HALF_UP).doubleValue();
+        RestaurantDetailsResponse restaurantDetailsResponse = new RestaurantDetailsResponse()
+                .id(UUID.fromString(restaurantEntity.getUuid()))
+                .restaurantName(restaurantEntity.getRestaurantName())
+                .photoURL(restaurantEntity.getPhotoUrl())
+                .customerRating(new BigDecimal(temp))
+                .averagePrice(restaurantEntity.getAvgPrice())
+                .numberCustomersRated(restaurantEntity.getNumberCustomersRated())
+                .address(restaurantDetailsResponseAddress);
 
-        responseAddress.setId(UUID.fromString(addressEntity.getUuid()));
-        responseAddress.setFlatBuildingName(addressEntity.getFlatBuilNo());
-        responseAddress.setLocality(addressEntity.getLocality());
-        responseAddress.setCity(addressEntity.getCity());
-        responseAddress.setPincode(addressEntity.getPincode());
+        for (CategoryEntity categoryEntity : categoryBusinessService.getCategoriesByRestaurant(restaurantId)) {
+            CategoryList categoryList = new CategoryList()
+                    .id(UUID.fromString(categoryEntity.getUuid()))
+                    .categoryName(categoryEntity.getCategoryName());
 
-        StateEntity stateEntity = stateBusinessService.getStateById((long) addressEntity.getState().getId());
-        RestaurantDetailsResponseAddressState responseAddressState = new RestaurantDetailsResponseAddressState();
+            for (ItemEntity itemEntity : itemService.getItemsByCategoryAndRestaurant(restaurantId, categoryEntity.getUuid())) {
+                ItemList itemList = new ItemList()
+                        .id(UUID.fromString(itemEntity.getUuid()))
+                        .itemName(itemEntity.getItemName())
+                        .price(itemEntity.getPrice())
+                        .itemType(ItemList.ItemTypeEnum.fromValue(itemEntity.getType().getValue()));
 
-        responseAddressState.setId(UUID.fromString(stateEntity.getUuid()));
-        responseAddressState.setStateName(stateEntity.getStateName());
-        responseAddress.setState(responseAddressState);
-
-        details.setAddress(responseAddress);
-
-        List<CategoryList> categoryLists = new ArrayList();
-        for (CategoryEntity categoryEntity : restaurant.getCategoryEntities()) {
-            CategoryList categoryListDetail = new CategoryList();
-            categoryListDetail.setId(UUID.fromString(categoryEntity.getUuid()));
-            categoryListDetail.setCategoryName(categoryEntity.getCategoryName());
-
-            List<ItemList> itemLists = new ArrayList();
-            for (ItemEntity itemEntity : categoryEntity.getItems()) {
-                ItemList itemDetail = new ItemList();
-                itemDetail.setId(UUID.fromString(itemEntity.getUuid()));
-                itemDetail.setItemName(itemEntity.getItemName());
-                itemDetail.setPrice(itemEntity.getPrice());
-                itemDetail.setItemType(ItemList.ItemTypeEnum.fromValue(itemEntity.getType()));
-                itemLists.add(itemDetail);
+                categoryList.addItemListItem(itemList);
             }
-            categoryListDetail.setItemList(itemLists);
-            categoryLists.add(categoryListDetail);
+
+            restaurantDetailsResponse.addCategoriesItem(categoryList);
         }
 
-        details.setCategories(categoryLists);
-
-        return new ResponseEntity<>(details, HttpStatus.OK);
+        return new ResponseEntity<RestaurantDetailsResponse>(restaurantDetailsResponse, HttpStatus.OK);
     }
+
 
     /**
      * @param authorization, customerRating, restaurant_id

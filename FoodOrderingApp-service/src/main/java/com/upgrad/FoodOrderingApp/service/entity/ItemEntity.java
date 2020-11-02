@@ -36,7 +36,7 @@ public class ItemEntity implements Serializable {
     @NotNull
     private Integer price;
 
-    private String type;
+    private ItemType type;
 
     public long getId() {
         return id;
@@ -70,12 +70,12 @@ public class ItemEntity implements Serializable {
         this.price = price;
     }
 
-    public String getType() {
+    public ItemType getType() {
         return type;
     }
 
     public void setType(ItemType type) {
-        this.type = type.toString();
+        this.type = type;
     }
 }
 
