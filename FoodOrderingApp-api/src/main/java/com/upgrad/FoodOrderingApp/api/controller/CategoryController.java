@@ -59,7 +59,10 @@ public class CategoryController {
     public ResponseEntity<CategoryDetailsResponse> getCategoryById(
             @PathVariable("category_id") final String categoryId)
             throws CategoryNotFoundException {
-        CategoryEntity categoryEntity = categoryBusinessService.getCategoryById(categoryId.toLowerCase());
+        CategoryEntity categoryEntity = categoryBusinessService.getCategoryById(categoryId);
+        if(categoryEntity == null){
+            throw new CategoryNotFoundException("CNF-002", "No category by this id");
+        }
         CategoryDetailsResponse categoryDetailsResponse = new CategoryDetailsResponse().id(UUID.fromString(categoryEntity.getUuid())).categoryName(categoryEntity.getCategoryName());
         for (ItemEntity itemEntity : categoryEntity.getItems()) {
             ItemList itemList = new ItemList()
