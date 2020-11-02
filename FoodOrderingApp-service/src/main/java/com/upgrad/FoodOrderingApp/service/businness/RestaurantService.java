@@ -85,7 +85,7 @@ public class RestaurantService {
         if (restaurantEntity == null) {
             throw new RestaurantNotFoundException("RNF-001", "No restaurant by this id");
         }
-        return restaurantDao.restaurantByUUID(restaurantUUID);
+        return restaurantEntity;
     }
 
     @Transactional
