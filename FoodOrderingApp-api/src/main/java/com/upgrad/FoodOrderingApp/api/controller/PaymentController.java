@@ -25,16 +25,15 @@ public class PaymentController {
     @Autowired
     PaymentService paymentService;
 
+    // Get All Payment methods
     @CrossOrigin
-    @RequestMapping(method = RequestMethod.GET,path = "/payment",consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<PaymentListResponse> GetAllPaymentMethods()
-    {
+    @RequestMapping(method = RequestMethod.GET, path = "/payment", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<PaymentListResponse> GetAllPaymentMethods() {
         List<PaymentEntity> response = paymentService.getAllPaymentMethods();
         PaymentListResponse paymentListResponse = new PaymentListResponse();
         PaymentResponse paymentResponse = new PaymentResponse();
         List<PaymentResponse> paymentResponseList = new ArrayList<>();
-        for(PaymentEntity paymentEntity:response)
-        {
+        for (PaymentEntity paymentEntity : response) {
             paymentResponse = new PaymentResponse();
             paymentResponse.setId(UUID.fromString(paymentEntity.getUuid()));
             paymentResponse.setPaymentName(paymentEntity.getPaymentName());

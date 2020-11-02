@@ -21,28 +21,28 @@ public class CustomerAddressDao {
 
 
     //To save saveCustomerAddress
-    public CustomerAddressEntity saveCustomerAddress(CustomerAddressEntity customerAddressEntity){
+    public CustomerAddressEntity saveCustomerAddress(CustomerAddressEntity customerAddressEntity) {
         entityManager.persist(customerAddressEntity);
         return customerAddressEntity;
     }
 
     //To get all customer address by customer if no results return null
-    public List<CustomerAddressEntity> getAllCustomerAddressByCustomer(CustomerEntity customerEntity){
-        try{
+    public List<CustomerAddressEntity> getAllCustomerAddressByCustomer(CustomerEntity customerEntity) {
+        try {
             Integer active = 1;
-            List <CustomerAddressEntity> customerAddressEntities = entityManager.createNamedQuery("getAllCustomerAddressByCustomer",CustomerAddressEntity.class).setParameter("customer_entity",customerEntity).setParameter("active",active).getResultList();
+            List<CustomerAddressEntity> customerAddressEntities = entityManager.createNamedQuery("getAllCustomerAddressByCustomer", CustomerAddressEntity.class).setParameter("customer_entity", customerEntity).setParameter("active", active).getResultList();
             return customerAddressEntities;
-        }catch (NoResultException nre){
+        } catch (NoResultException nre) {
             return null;
         }
     }
 
     //To get Customer Address By Address if no results return null
-    public CustomerAddressEntity getCustomerAddressByAddress(AddressEntity addressEntity){
+    public CustomerAddressEntity getCustomerAddressByAddress(AddressEntity addressEntity) {
         try {
-            CustomerAddressEntity customerAddressEntity = entityManager.createNamedQuery("getCustomerAddressByAddress",CustomerAddressEntity.class).setParameter("address_entity",addressEntity).getSingleResult();
+            CustomerAddressEntity customerAddressEntity = entityManager.createNamedQuery("getCustomerAddressByAddress", CustomerAddressEntity.class).setParameter("address_entity", addressEntity).getSingleResult();
             return customerAddressEntity;
-        }catch (NoResultException nre){
+        } catch (NoResultException nre) {
             return null;
         }
     }
@@ -62,7 +62,7 @@ public class CustomerAddressDao {
             List<Long> ids = new ArrayList<>();
 
             for (CustomerAddressEntity cae : customerAddressEntities) {
-                ids.add((long)cae.getAddress().getId());
+                ids.add((long) cae.getAddress().getId());
             }
 
             List<AddressEntity> addressEntitiesList = entityManager.createQuery(
@@ -78,9 +78,9 @@ public class CustomerAddressDao {
     public CustomerAddressEntity getCustAddressByCustIdAddressId(final CustomerEntity customerEntity, final AddressEntity addressEntity) {
         try {
             return entityManager.createNamedQuery("custAddressByCustIdAddressId", CustomerAddressEntity.class)
-                    .setParameter("customer", customerEntity).setParameter( "address", addressEntity)
+                    .setParameter("customer", customerEntity).setParameter("address", addressEntity)
                     .getSingleResult();
-        } catch(NoResultException nre) {
+        } catch (NoResultException nre) {
             return null;
         }
     }

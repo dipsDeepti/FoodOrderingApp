@@ -15,42 +15,42 @@ public class UtilityClass {
 
 
     //Validate the password as per given conditions,1Uppercase,1Lowercase,1Number,1SpecialCharacter and atleast 8 characters.
-    public boolean isValidPassword(String password){
+    public boolean isValidPassword(String password) {
         Boolean lowerCase = false;
         Boolean upperCase = false;
         Boolean number = false;
         Boolean specialCharacter = false;
 
-        if(password.length() < 8){
+        if (password.length() < 8) {
             return false;
         }
 
-        if(password.matches("(?=.*[0-9]).*")){
+        if (password.matches("(?=.*[0-9]).*")) {
             number = true;
         }
 
-        if(password.matches("(?=.*[a-z]).*")){
+        if (password.matches("(?=.*[a-z]).*")) {
             lowerCase = true;
         }
-        if(password.matches("(?=.*[A-Z]).*")){
+        if (password.matches("(?=.*[A-Z]).*")) {
             upperCase = true;
         }
-        if(password.matches("(?=.*[#@$%&*!^]).*")){
+        if (password.matches("(?=.*[#@$%&*!^]).*")) {
             specialCharacter = true;
         }
 
-        if(lowerCase && upperCase){
-            if(specialCharacter && number){
+        if (lowerCase && upperCase) {
+            if (specialCharacter && number) {
                 return true;
             }
-        }else{
+        } else {
             return false;
         }
         return false;
     }
 
     //Validate the ContactNo
-    public boolean isContactValid(String contactNumber){
+    public boolean isContactValid(String contactNumber) {
         Pattern p = Pattern.compile("(0/91)?[7-9][0-9]{9}");
         Matcher m = p.matcher(contactNumber);
         return (m.find() && m.group().equals(contactNumber));
@@ -63,31 +63,31 @@ public class UtilityClass {
     }
 
     //Validate the Pincode
-    public boolean isPincodeValid(String pincode){
+    public boolean isPincodeValid(String pincode) {
         Pattern p = Pattern.compile("\\d{6}\\b");
         Matcher m = p.matcher(pincode);
         return (m.find() && m.group().equals(pincode));
     }
 
     //validate Signuprequest
-    public boolean isValidSignupRequest (CustomerEntity customerEntity)throws SignUpRestrictedException{
-        if (customerEntity.getFirstName() == null || customerEntity.getFirstName() == ""){
-            throw new SignUpRestrictedException("SGR-005","Except last name all fields should be filled");
+    public boolean isValidSignupRequest(CustomerEntity customerEntity) throws SignUpRestrictedException {
+        if (customerEntity.getFirstName() == null || customerEntity.getFirstName() == "") {
+            throw new SignUpRestrictedException("SGR-005", "Except last name all fields should be filled");
         }
-        if(customerEntity.getPassword() == null||customerEntity.getPassword() == ""){
-            throw new SignUpRestrictedException("SGR-005","Except last name all fields should be filled");
+        if (customerEntity.getPassword() == null || customerEntity.getPassword() == "") {
+            throw new SignUpRestrictedException("SGR-005", "Except last name all fields should be filled");
         }
-        if (customerEntity.getEmail() == null||customerEntity.getEmail() == ""){
-            throw new SignUpRestrictedException("SGR-005","Except last name all fields should be filled");
+        if (customerEntity.getEmail() == null || customerEntity.getEmail() == "") {
+            throw new SignUpRestrictedException("SGR-005", "Except last name all fields should be filled");
         }
-        if (customerEntity.getContactNumber() == null||customerEntity.getContactNumber() == ""){
-            throw new SignUpRestrictedException("SGR-005","Except last name all fields should be filled");
+        if (customerEntity.getContactNumber() == null || customerEntity.getContactNumber() == "") {
+            throw new SignUpRestrictedException("SGR-005", "Except last name all fields should be filled");
         }
         return true;
     }
 
     //To validate the Authorization format
-    public boolean isValidAuthorizationFormat(String authorization)throws AuthenticationFailedException{
+    public boolean isValidAuthorizationFormat(String authorization) throws AuthenticationFailedException {
         try {
             byte[] decoded = Base64.getDecoder().decode(authorization.split("Basic ")[1]);
             String decodedAuth = new String(decoded);
@@ -95,13 +95,13 @@ public class UtilityClass {
             String username = decodedArray[0];
             String password = decodedArray[1];
             return true;
-        }catch (ArrayIndexOutOfBoundsException exc){
-            throw new AuthenticationFailedException("ATH-003","Incorrect format of decoded customer name and password");
+        } catch (ArrayIndexOutOfBoundsException exc) {
+            throw new AuthenticationFailedException("ATH-003", "Incorrect format of decoded customer name and password");
         }
     }
 
     //To validate Customer update request
-    public boolean isValidUpdateCustomerRequest (String firstName)throws UpdateCustomerException {
+    public boolean isValidUpdateCustomerRequest(String firstName) throws UpdateCustomerException {
         if (firstName == null || firstName == "") {
             throw new UpdateCustomerException("UCR-002", "First name field should not be empty");
         }
@@ -109,7 +109,7 @@ public class UtilityClass {
     }
 
     //To validate the password Update Request.
-    public boolean isValidUpdatePasswordRequest(String oldPassword,String newPassword) throws UpdateCustomerException{
+    public boolean isValidUpdatePasswordRequest(String oldPassword, String newPassword) throws UpdateCustomerException {
         if (oldPassword == null || oldPassword == "") {
             throw new UpdateCustomerException("UCR-003", "No field should be empty");
         }
@@ -120,8 +120,8 @@ public class UtilityClass {
     }
 
     //To validate the Customer rating
-    public boolean isValidCustomerRating(String customerRating){
-        if(customerRating.equals("5.0")){
+    public boolean isValidCustomerRating(String customerRating) {
+        if (customerRating.equals("5.0")) {
             return true;
         }
         Pattern p = Pattern.compile("[1-4].[0-9]");
@@ -129,10 +129,10 @@ public class UtilityClass {
         return (m.find() && m.group().equals(customerRating));
     }
 
-    public Map<String,Integer> sortMapByValues(Map<String,Integer> map){
+    public Map<String, Integer> sortMapByValues(Map<String, Integer> map) {
 
         // Create a list from elements of itemCountMap
-        List<Map.Entry<String,Integer>> list = new LinkedList<Map.Entry<String, Integer>>(map.entrySet());
+        List<Map.Entry<String, Integer>> list = new LinkedList<Map.Entry<String, Integer>>(map.entrySet());
 
         Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
             @Override

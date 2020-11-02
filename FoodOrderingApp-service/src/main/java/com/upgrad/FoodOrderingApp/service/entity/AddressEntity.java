@@ -14,10 +14,10 @@ import java.io.Serializable;
 
 
 @Entity
-@Table (name = "address",uniqueConstraints = {@UniqueConstraint(columnNames = {"uuid"})})
+@Table(name = "address", uniqueConstraints = {@UniqueConstraint(columnNames = {"uuid"})})
 @NamedQueries({
 
-        @NamedQuery(name = "getAddressByUuid",query = "SELECT a from AddressEntity a where a.uuid = :uuid"),
+        @NamedQuery(name = "getAddressByUuid", query = "SELECT a from AddressEntity a where a.uuid = :uuid"),
         @NamedQuery(name = "addressByUuid", query = "select a from AddressEntity a where a.uuid =:uuid"),
         @NamedQuery(name = "allAddresses", query = "select a from AddressEntity a "),
         @NamedQuery(name = "addressById", query = "select a from AddressEntity a where a.id=:id")
@@ -59,12 +59,12 @@ public class AddressEntity implements Serializable {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private StateEntity state;
 
-    public AddressEntity(){
+    public AddressEntity() {
     }
 
     public AddressEntity(String uuid, String flatBuilNo, String locality, String city, String pincode, StateEntity stateEntity) {
         this.uuid = uuid;
-        this.flatBuilNo =flatBuilNo;
+        this.flatBuilNo = flatBuilNo;
         this.locality = locality;
         this.city = city;
         this.pincode = pincode;

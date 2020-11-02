@@ -27,11 +27,9 @@ public class CategoryController {
     private CategoryService categoryBusinessService;
 
     /**
-     *
      * @return All categories stored in database
      * Getting the list of all categories with help of category business service
      * return response entity with CategoriesList(details) and Http status
-     *
      */
 
     @CrossOrigin
@@ -54,14 +52,13 @@ public class CategoryController {
     }
 
     /**
-     *
      * @return Category with full details like items based on given category id
      * @throws CategoryNotFoundException - when category id field is empty
      */
     @RequestMapping(method = RequestMethod.GET, path = "/category/{category_id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<CategoryDetailsResponse> getCategoryById(
             @PathVariable("category_id") final String categoryId)
-            throws CategoryNotFoundException{
+            throws CategoryNotFoundException {
         CategoryEntity categoryEntity = categoryBusinessService.getCategoryById(categoryId.toLowerCase());
         CategoryDetailsResponse categoryDetailsResponse = new CategoryDetailsResponse().id(UUID.fromString(categoryEntity.getUuid())).categoryName(categoryEntity.getCategoryName());
         for (ItemEntity itemEntity : categoryEntity.getItems()) {
