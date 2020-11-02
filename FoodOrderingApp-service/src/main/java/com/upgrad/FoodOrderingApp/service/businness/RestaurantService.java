@@ -45,8 +45,13 @@ public class RestaurantService {
         return restaurantDao.getRestaurantByCategoryId(categoryID);
     }
 
-    public RestaurantEntity restaurantByUUID(String restaurantUUID) {
-        return restaurantDao.restaurantByUUID(restaurantUUID);
+    public RestaurantEntity restaurantByUUID(String restaurantUUID) throws RestaurantNotFoundException {
+        RestaurantEntity entity = restaurantDao.restaurantByUUID(restaurantUUID);
+        if(entity == null)
+        {
+            throw new RestaurantNotFoundException("RNF-001", "No restaurant by this id");
+        }
+        return  entity;
     }
 
     @Transactional

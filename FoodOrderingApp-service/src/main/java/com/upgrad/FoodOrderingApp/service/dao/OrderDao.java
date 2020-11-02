@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.List;
 
 //This Class is created to access DB with respect to Order entity
@@ -23,19 +24,20 @@ public class OrderDao {
     }
 
     //To get List of order from the db Corresponding to Customers
-    public List<OrderEntity> getOrdersByCustomers(CustomerEntity customerEntity) {
+   /* public List<OrderEntity> getOrdersByCustomers(CustomerEntity customerEntity) {
         try {
             List<OrderEntity> ordersEntities = entityManager.createNamedQuery("getOrdersByCustomers", OrderEntity.class).setParameter("customer",customerEntity).getResultList();
             return ordersEntities;
         }catch (NoResultException nre){
             return null;
         }
-    }
+    }*/
 
     //To get list of OrdersEntity by the restaurant if no result then null is returned
     public List<OrderEntity> getOrdersByRestaurant(RestaurantEntity restaurantEntity){
         try{
-            List<OrderEntity> ordersEntities = entityManager.createNamedQuery("getOrdersByRestaurant", OrderEntity.class).setParameter("restaurant",restaurantEntity).getResultList();
+            List<OrderEntity> ordersEntities = new ArrayList<>();
+                    //= entityManager.createNamedQuery("getOrdersByRestaurant", OrderEntity.class).setParameter("restaurant",restaurantEntity).getResultList();
             return ordersEntities;
         }catch (NoResultException nre){
             return null;

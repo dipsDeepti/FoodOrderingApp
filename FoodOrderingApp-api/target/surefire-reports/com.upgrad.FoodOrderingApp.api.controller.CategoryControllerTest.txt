@@ -1,0 +1,28 @@
+-------------------------------------------------------------------------------
+Test set: com.upgrad.FoodOrderingApp.api.controller.CategoryControllerTest
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 0, Errors: 4, Skipped: 0, Time elapsed: 5.41 s <<< FAILURE! - in com.upgrad.FoodOrderingApp.api.controller.CategoryControllerTest
+shouldNotGetCategoryByIdIfCategoryDoesNotExistAgainstGivenId(com.upgrad.FoodOrderingApp.api.controller.CategoryControllerTest)  Time elapsed: 0.047 s  <<< ERROR!
+org.springframework.web.util.NestedServletException: Request processing failed; nested exception is java.lang.NullPointerException
+	at com.upgrad.FoodOrderingApp.api.controller.CategoryControllerTest.shouldNotGetCategoryByIdIfCategoryDoesNotExistAgainstGivenId(CategoryControllerTest.java:99)
+Caused by: java.lang.NullPointerException
+	at com.upgrad.FoodOrderingApp.api.controller.CategoryControllerTest.shouldNotGetCategoryByIdIfCategoryDoesNotExistAgainstGivenId(CategoryControllerTest.java:99)
+
+shouldGetAllCategoryOrderedByName(com.upgrad.FoodOrderingApp.api.controller.CategoryControllerTest)  Time elapsed: 0.188 s  <<< ERROR!
+com.fasterxml.jackson.databind.exc.MismatchedInputException: 
+Cannot deserialize instance of `com.upgrad.FoodOrderingApp.api.model.CategoriesListResponse` out of START_ARRAY token
+ at [Source: (String)"[]"; line: 1, column: 1]
+	at com.upgrad.FoodOrderingApp.api.controller.CategoryControllerTest.shouldGetAllCategoryOrderedByName(CategoryControllerTest.java:120)
+
+shouldNotGetAnyCategoryOrderedByNameIfItDoesNotExists(com.upgrad.FoodOrderingApp.api.controller.CategoryControllerTest)  Time elapsed: 0.141 s  <<< ERROR!
+com.fasterxml.jackson.databind.exc.MismatchedInputException: 
+Cannot deserialize instance of `com.upgrad.FoodOrderingApp.api.model.CategoriesListResponse` out of START_ARRAY token
+ at [Source: (String)"[]"; line: 1, column: 1]
+	at com.upgrad.FoodOrderingApp.api.controller.CategoryControllerTest.shouldNotGetAnyCategoryOrderedByNameIfItDoesNotExists(CategoryControllerTest.java:137)
+
+shouldGetCategoryById(com.upgrad.FoodOrderingApp.api.controller.CategoryControllerTest)  Time elapsed: 0.359 s  <<< ERROR!
+org.springframework.web.util.NestedServletException: Request processing failed; nested exception is java.lang.NullPointerException
+	at com.upgrad.FoodOrderingApp.api.controller.CategoryControllerTest.shouldGetCategoryById(CategoryControllerTest.java:63)
+Caused by: java.lang.NullPointerException
+	at com.upgrad.FoodOrderingApp.api.controller.CategoryControllerTest.shouldGetCategoryById(CategoryControllerTest.java:63)
+

@@ -1,6 +1,9 @@
 package com.upgrad.FoodOrderingApp.service.entity;
 
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -14,13 +17,13 @@ import java.util.Date;
 @Entity
 @Table(name = "orders",uniqueConstraints = {@UniqueConstraint(columnNames = {"uuid"})})
 @NamedQueries({
-        @NamedQuery(name = "getOrdersByCustomers",query = "SELECT o FROM OrdersEntity o WHERE o.customer = :customer ORDER BY o.date DESC "),
-        @NamedQuery(name = "getOrdersByRestaurant",query = "SELECT o FROM OrdersEntity o WHERE o.restaurant = :restaurant"),
-        @NamedQuery(name = "getOrdersByAddress",query = "SELECT o FROM OrdersEntity o WHERE o.address = :address"),
-        @NamedQuery(name = "ordersByUuid",query="select o from OrdersEntity o where o.uuid=:uuid"),
-        @NamedQuery(name = "ordersById", query = "select o from OrdersEntity o where o.id=:id"),
-        @NamedQuery(name = "ordersByCustomer", query = "select o from OrdersEntity o where o.customer=:customer order by o.date desc"),
-        @NamedQuery(name = "ordersByRestaurant", query = "select o from OrdersEntity o where o.restaurant=:restaurant order by o.date desc")
+    //   @NamedQuery(name = "getOrdersByCustomers",query = "SELECT o FROM OrdersEntity o WHERE o.customer = :customer ORDER BY o.date DESC "),
+       // @NamedQuery(name = "getOrdersByRestaurant",query = "SELECT o FROM OrdersEntity o WHERE o.restaurant = :restaurant"),
+      //  @NamedQuery(name = "getOrdersByAddress",query = "SELECT o FROM OrdersEntity o WHERE o.address = :address"),
+       // @NamedQuery(name = "ordersByUuid",query="select o from OrdersEntity o where o.uuid=:uuid"),
+       // @NamedQuery(name = "ordersById", query = "select o from OrdersEntity o where o.id=:id"),
+       // @NamedQuery(name = "ordersByCustomer", query = "select o from OrdersEntity o where o.customer=:customer order by o.date desc"),
+       // @NamedQuery(name = "ordersByRestaurant", query = "select o from OrdersEntity o where o.restaurant=:restaurant order by o.date desc")
 })
 public class OrderEntity implements Serializable {
 
@@ -65,16 +68,18 @@ public class OrderEntity implements Serializable {
     @NotNull
     private AddressEntity address;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+   /* @ManyToOne(fetch = FetchType.EAGER)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "restaurant_id")
-    @NotNull
-    private RestaurantEntity restaurant;
+    private RestaurantEntity restaurant;*/
 
     public OrderEntity(){
 
     }
 
-    public OrderEntity(String uuid, Double bill, CouponEntity couponEntity, Double discount, Timestamp orderDate, PaymentEntity paymentEntity, CustomerEntity customerEntity, AddressEntity addressEntity, RestaurantEntity restaurantEntity) {
+    public OrderEntity(String uuid, Double bill, CouponEntity couponEntity, Double discount, Timestamp orderDate, PaymentEntity paymentEntity, CustomerEntity customerEntity, AddressEntity addressEntity
+           // , RestaurantEntity restaurantEntity
+    ) {
         this.uuid = uuid;
         this.bill = bill;
         this.coupon = couponEntity;
@@ -83,7 +88,7 @@ public class OrderEntity implements Serializable {
         this.payment = paymentEntity;
         this.customer = customerEntity;
         this.address = addressEntity;
-        this.restaurant = restaurantEntity;
+       // this.restaurant = restaurantEntity;
 
     }
 
@@ -160,11 +165,13 @@ public class OrderEntity implements Serializable {
         this.address = address;
     }
 
-    public RestaurantEntity getRestaurant() {
+    /*public RestaurantEntity getRestaurant() {
         return restaurant;
     }
 
     public void setRestaurant(RestaurantEntity restaurant) {
         this.restaurant = restaurant;
     }
+
+     */
 }
