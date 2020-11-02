@@ -197,7 +197,8 @@ public class RestaurantController {
         details.setAveragePrice(restaurant.getAvgPrice());
         details.setNumberCustomersRated(restaurant.getNumberCustomersRated());
 
-        AddressEntity addressEntity = addressService.getAddressById((long) restaurant.getAddress().getId());
+        AddressEntity address = restaurant.getAddress();
+        AddressEntity addressEntity = addressService.getAddressById((long) address.getId());
         RestaurantDetailsResponseAddress responseAddress = new RestaurantDetailsResponseAddress();
 
         responseAddress.setId(UUID.fromString(addressEntity.getUuid()));
