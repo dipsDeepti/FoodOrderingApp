@@ -43,7 +43,7 @@ public class ItemController {
 
         for (ItemEntity ie : itemEntityList) {
             ItemList itemList = new ItemList().id(UUID.fromString(ie.getUuid()))
-                    .itemName(ie.getItemName()).price(ie.getPrice()).itemType(ItemList.ItemTypeEnum.fromValue(ie.getType()));
+                    .itemName(ie.getItemName()).price(ie.getPrice()).itemType(ItemList.ItemTypeEnum.fromValue(ie.getType().getValue()));
             itemListResponse.add(itemList);
             itemCount += 1;
             if (itemCount >= 5)

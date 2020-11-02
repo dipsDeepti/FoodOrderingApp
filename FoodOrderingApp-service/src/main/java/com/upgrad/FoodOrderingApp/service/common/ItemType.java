@@ -18,4 +18,7 @@ public enum ItemType {
         return value;
     }
 
+    public String getValue() {
+        return value;
+    }
 }

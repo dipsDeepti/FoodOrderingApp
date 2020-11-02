@@ -69,7 +69,7 @@ public class CategoryController {
                     .id(UUID.fromString(itemEntity.getUuid()))
                     .itemName(itemEntity.getItemName())
                     .price(itemEntity.getPrice())
-                    .itemType(ItemList.ItemTypeEnum.fromValue(itemEntity.getType()));
+                    .itemType(ItemList.ItemTypeEnum.fromValue(itemEntity.getType().getValue()));
             categoryDetailsResponse.addItemListItem(itemList);
         }
         return new ResponseEntity<CategoryDetailsResponse>(categoryDetailsResponse, HttpStatus.OK);
