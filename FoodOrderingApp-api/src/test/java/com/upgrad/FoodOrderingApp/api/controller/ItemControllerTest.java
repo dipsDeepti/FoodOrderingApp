@@ -7,6 +7,7 @@ import com.upgrad.FoodOrderingApp.service.businness.RestaurantService;
 import com.upgrad.FoodOrderingApp.service.entity.ItemEntity;
 import com.upgrad.FoodOrderingApp.service.entity.RestaurantEntity;
 import com.upgrad.FoodOrderingApp.service.exception.RestaurantNotFoundException;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,8 +62,8 @@ public class ItemControllerTest {
                 .andReturn().getResponse().getContentAsString();
 
         final ItemListResponse itemListResponse = new ObjectMapper().readValue(responseString, ItemListResponse.class);
-        assertEquals(itemListResponse.size(), 1);
-        assertEquals(itemListResponse.get(0).getId().toString(), itemId);
+        Assert.assertEquals(itemListResponse.size(), 1);
+        Assert.assertEquals(itemListResponse.get(0).getId().toString(), itemId);
 
     }
 
